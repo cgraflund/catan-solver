@@ -2,6 +2,44 @@
 
 #include <iostream>
 
+void Board::init_token_pile() {
+    // Placeholder for radius 2 board
+    token_pile = {2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12};
+}
+
+// Get a random token from the token pile and remove it from the pile
+int Board::draw_token() {
+    int index = rand() % token_pile.size();
+    int token = token_pile[index];
+    token_pile.erase(token_pile.begin() + index);
+    return token;
+}
+
+void Board::init_resource(Resource r, int n) {
+    for (int i = 0; i < n; i++) {
+        int token = 0;
+        if (r != desert) {
+            token = draw_token();
+        }
+        resource_pile.push_back(Tile(r, token));
+    }
+}
+
+void Board::init_resource_pile() {
+    init_resource(Resource::wood, NUM_WOOD);
+    init_resource(Resource::sheep, NUM_SHEEP);
+    init_resource(Resource::brick, NUM_BRICK);
+    init_resource(Resource::stone, NUM_STONE);
+    init_resource(Resource::wheat, NUM_WHEAT);
+    init_resource(Resource::desert, NUM_DESERT);
+}
+
+Tile Board::draw_tile() {
+    int index = rand() % resource_pile.size();
+    Tile tile = resource_pile[index];
+    resource_pile.erase(resource_pile.begin() + index);
+    return tile;
+}
 
 void Board::init_nodes() {
     int height = (board_radius + 1) * 2;
@@ -32,7 +70,7 @@ void Board::init_tiles() {
         else
             width += (height - row - 1) % (board_radius + 1);
         for (int col = 0; col < width; col++) {
-            Tile tile;// = getTile(); // return a random tile from tileset
+            Tile tile = draw_tile();
             row_vec.push_back(tile);
         }
         board_tiles.push_back(row_vec);
