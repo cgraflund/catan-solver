@@ -47,8 +47,48 @@ void testNodeAdj(Board& board) {
     assert(adj5.count(&board.board_nodes[3][2]));
 }
 
+void testTileAdj(Board& board) {
+    const auto& adj1 = board.board_nodes[0][0].adjacent_tiles;
+    assert(adj1.size() == 1);
+    assert(adj1.count(&board.board_tiles[0][0]));
+
+    const auto& adj2 = board.board_nodes[2][5].adjacent_tiles;
+    assert(adj2.size() == 3);
+    assert(adj2.count(&board.board_tiles[1][1]));
+    assert(adj2.count(&board.board_tiles[1][2]));
+    assert(adj2.count(&board.board_tiles[2][2]));
+
+    const auto& adj3 = board.board_nodes[4][2].adjacent_tiles;
+    assert(adj3.size() == 3);
+    assert(adj3.count(&board.board_tiles[3][0]));
+    assert(adj3.count(&board.board_tiles[3][1]));
+    assert(adj3.count(&board.board_tiles[4][0]));
+
+    const auto& adj4 = board.board_nodes[2][1].adjacent_tiles;
+    assert(adj4.size() == 2);
+    assert(adj4.count(&board.board_tiles[1][0]));
+    assert(adj4.count(&board.board_tiles[2][0]));
+
+    const auto& adj5 = board.board_nodes[5][4].adjacent_tiles;
+    assert(adj5.size() == 2);
+    assert(adj5.count(&board.board_tiles[4][1]));
+    assert(adj5.count(&board.board_tiles[4][2]));
+
+    const auto& adj6 = board.board_nodes[3][10].adjacent_tiles;
+    assert(adj6.size() == 1);
+    assert(adj6.count(&board.board_tiles[2][4]));
+
+    const auto& adj7 = board.board_nodes[1][6].adjacent_tiles;
+    assert(adj7.size() == 3);
+    assert(adj7.count(&board.board_tiles[0][2]));
+    assert(adj7.count(&board.board_tiles[1][2]));
+    assert(adj7.count(&board.board_tiles[1][3]));
+
+}
+
 void test_board() {
     Board board(2);
     testBoardSize(board);
     testNodeAdj(board);
+    testTileAdj(board);
 }
